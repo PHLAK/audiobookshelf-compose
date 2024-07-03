@@ -1,0 +1,32 @@
+services:
+
+  audiobookshelf:
+    image: advplyr/audiobookshelf
+    env_file: environment.d/audiobookshelf.env
+    ports:
+      - ${SERVER_PORT:-80}:80
+    volumes:
+      - ${AUDIOBOOKS_PATH}:/audiobooks
+      - ${PODCASTS_PATH}:/podcasts
+      - audiobookshelf-config:/config
+      - audiobookshelf-metadata:/metadata
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+
+  watchtower:
+    image: containrrr/watchtower
+    env_file: environment.d/watchtower.env
+    environment:
+      WATCHTOWER_SCOPE: ${COMPOSE_PROJECT_NAME}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/localtime:/etc/localtime:ro
+    labels:
+      com.centurylinklabs.watchtower.scope: ${COMPOSE_PROJECT_NAME}
+    restart: unless-stopped
+
+volumes:
+  audiobookshelf-config: {}
+  audiobookshelf-metadata: {}
