@@ -3,6 +3,8 @@ services:
   audiobookshelf:
     image: advplyr/audiobookshelf:${AUDIOBOOKSHELF_VERSION:-latest}
     env_file: environment.d/audiobookshelf.env
+    environment:
+      BACKUP_PATH: /backups
     ports:
       - ${SERVER_PORT:-80}:80
     volumes:
