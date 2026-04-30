@@ -6,7 +6,7 @@ services:
     environment:
       BACKUP_PATH: /backups
     ports:
-      - ${SERVER_PORT:-80}:80
+      - ${AUDIOBOOKSHELF_PORT:-127.0.0.1:80}:80
     volumes:
       - ${AUDIOBOOKS_PATH}:/audiobooks
       - ${PODCASTS_PATH}:/podcasts
